@@ -1,3 +1,82 @@
-.container {
-    background: #7A85C1;
+.aboutSection {
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3rem;
+    background: #7a85c17c;
+    border-radius: 16px;
+    padding: 3rem 2rem;
+    box-shadow: 0 4px 32px rgba(0, 0, 0, 0.07);
+    margin: 3rem auto;
+    max-width: 900px;
+}
+
+.textBlock {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+.title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #382756;
+    margin: 0;
+}
+
+.description {
+    font-size: 1.15rem;
+    color: #fff;
+    line-height: 1.7;
+    margin: 0;
+}
+
+.contactButton {
+    display: inline-block;
+    padding: 0.75rem 2rem;
+    background: #382756;
+    color: #fff;
+    border-radius: 999px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.2s;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    align-self: flex-start;
+    margin-top: 1rem;
+}
+
+.contactButton:hover {
+    background: #4a3568;
+}
+
+.imageBlock {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.aboutImage {
+    width: 100%;
+    max-width: 340px;
+    border-radius: 1.5rem;
+    box-shadow: 0 4px 32px rgba(0, 0, 0, 0.10);
+    object-fit: cover;
+    aspect-ratio: 3/4;
+}
+
+@media (max-width: 900px) {
+    .aboutSection {
+        flex-direction: column;
+        gap: 2rem;
+        padding: 2rem 1rem;
+    }
+
+    .aboutImage {
+        max-width: 90vw;
+    }
 }

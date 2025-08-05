@@ -1,8 +1,9 @@
 "use client";
 import Link from "next/link";
 import { title } from "process";
-import React from "react";
+import React, { useState } from "react";
 import styles from "./navbar.module.css";
+import { Playwrite_AU_QLD } from "next/font/google";
 
 const links = [
   {
@@ -36,16 +37,43 @@ const links = [
     url: "/dashboard",
   },
 ];
+
+const playwriteFont = Playwrite_AU_QLD({
+  subsets: ["latin"],
+});
+
 const Navbar = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  const closeMenu = () => {
+    setIsMenuOpen(false);
+  };
+
   return (
     <div className={styles.container}>
-      <Link href="/" className={styles.logo}>
-        Logo
+      <Link href="/" className={`${styles.logo} ${playwriteFont.className}`}>
+        CreateIT
       </Link>
-      <div className={styles.links}>
+      
+      <button className={styles.hamburger} onClick={toggleMenu}>
+        <span className={`${styles.hamburgerLine} ${isMenuOpen ? styles.active : ''}`}></span>
+        <span className={`${styles.hamburgerLine} ${isMenuOpen ? styles.active : ''}`}></span>
+        <span className={`${styles.hamburgerLine} ${isMenuOpen ? styles.active : ''}`}></span>
+      </button>
+
+      <div className={`${styles.links} ${isMenuOpen ? styles.mobileMenuOpen : ''}`}>
         {links.map((link) => {
           return (
-            <Link key={link.id} href={link.url}>
+            <Link 
+              className={styles.link} 
+              key={link.id} 
+              href={link.url}
+              onClick={closeMenu}
+            >
               {link.title}
             </Link>
           );
@@ -54,6 +82,7 @@ const Navbar = () => {
           className={styles.logout}
           onClick={() => {
             console.log("Logged out");
+            closeMenu();
           }}
         >
           Logout
