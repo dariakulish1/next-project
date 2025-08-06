@@ -1,6 +1,5 @@
 .container {
     min-height: 100vh;
-    background: #7a85c17c;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -169,9 +168,6 @@
     transform: translateX(3px);
 }
 
-/* Responsive Design */
-
-/* Large Tablets and Small Laptops */
 @media (max-width: 1024px) {
     .container {
         padding: 1.5rem;
@@ -187,7 +183,6 @@
     }
 }
 
-/* Tablets */
 @media (max-width: 768px) {
     .container {
         padding: 1rem;
@@ -229,7 +224,6 @@
     }
 }
 
-/* Large Mobile */
 @media (max-width: 480px) {
     .container {
         padding: 0.75rem;
@@ -281,7 +275,6 @@
     }
 }
 
-/* Small Mobile */
 @media (max-width: 360px) {
     .container {
         padding: 0.5rem;
@@ -312,7 +305,6 @@
     }
 }
 
-/* Landscape Mobile */
 @media (max-height: 500px) and (orientation: landscape) {
     .container {
         padding: 0.5rem;
@@ -351,7 +343,6 @@
     }
 }
 
-/* High DPI Displays */
 @media (-webkit-min-device-pixel-ratio: 2),
 (min-resolution: 192dpi) {
     .formWrapper {
@@ -364,7 +355,6 @@
     }
 }
 
-/* Reduced Motion */
 @media (prefers-reduced-motion: reduce) {
     .formWrapper {
         animation: none;
