@@ -4,6 +4,7 @@ import { title } from "process";
 import React, { useState } from "react";
 import styles from "./navbar.module.css";
 import { Playwrite_AU_QLD } from "next/font/google";
+import { signOut, useSession } from "next-auth/react";
 
 const links = [
   {
@@ -44,7 +45,7 @@ const playwriteFont = Playwrite_AU_QLD({
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+  const session = useSession();
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -58,19 +59,33 @@ const Navbar = () => {
       <Link href="/" className={`${styles.logo} ${playwriteFont.className}`}>
         CreateIT
       </Link>
-      
-      <button className={styles.hamburger} onClick={toggleMenu}>
-        <span className={`${styles.hamburgerLine} ${isMenuOpen ? styles.active : ''}`}></span>
-        <span className={`${styles.hamburgerLine} ${isMenuOpen ? styles.active : ''}`}></span>
-        <span className={`${styles.hamburgerLine} ${isMenuOpen ? styles.active : ''}`}></span>
+
+      <button type="submit" className={styles.hamburger} onClick={toggleMenu}>
+        <span
+          className={`${styles.hamburgerLine} ${
+            isMenuOpen ? styles.active : ""
+          }`}
+        ></span>
+        <span
+          className={`${styles.hamburgerLine} ${
+            isMenuOpen ? styles.active : ""
+          }`}
+        ></span>
+        <span
+          className={`${styles.hamburgerLine} ${
+            isMenuOpen ? styles.active : ""
+          }`}
+        ></span>
       </button>
 
-      <div className={`${styles.links} ${isMenuOpen ? styles.mobileMenuOpen : ''}`}>
+      <div
+        className={`${styles.links} ${isMenuOpen ? styles.mobileMenuOpen : ""}`}
+      >
         {links.map((link) => {
           return (
-            <Link 
-              className={styles.link} 
-              key={link.id} 
+            <Link
+              className={styles.link}
+              key={link.id}
               href={link.url}
               onClick={closeMenu}
             >
@@ -78,15 +93,17 @@ const Navbar = () => {
             </Link>
           );
         })}
-        <button
-          className={styles.logout}
-          onClick={() => {
-            console.log("Logged out");
-            closeMenu();
-          }}
-        >
-          Logout
-        </button>
+        {session.status === "authenticated" && (
+          <button
+            className={styles.logout}
+            onClick={() => {
+              signOut();
+              closeMenu();
+            }}
+          >
+            Logout
+          </button>
+        )}
       </div>
     </div>
   );

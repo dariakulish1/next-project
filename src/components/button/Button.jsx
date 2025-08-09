@@ -3,7 +3,7 @@ import styles from "./button.module.css";
 
 const Button = ({ url }) => {
   return (
-    <button className={styles.showMoreBtn} url={url}>
+    <button type="submit" className={styles.showMoreBtn} url={url}>
       Show more
     </button>
   );
