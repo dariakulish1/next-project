@@ -12,12 +12,13 @@ const getData = (categ) => {
   }
   return notFound();
 };
-const Category = ({ params }) => {
-  const data = getData(params.category);
+const Category = async ({ params }) => {
+  const { category } = await params;
+  const data = getData(category);
   return (
     <div className={styles.categoryContainer}>
       <div className={styles.textBlock}>
-        <h1>{params.category}</h1>
+        <h1>{category}</h1>
         {data.map((item) => (
           <div key={item.id}>
             <div>
@@ -33,7 +34,7 @@ const Category = ({ params }) => {
                 height={450}
               />
             </div>
-            <Button url="#blog" />
+            <Button url="/blog" />
           </div>
         ))}
       </div>

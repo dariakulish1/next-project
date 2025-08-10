@@ -3,9 +3,10 @@ import styles from "./button.module.css";
 
 const Button = ({ url }) => {
   return (
-    <button type="submit" className={styles.showMoreBtn} url={url}>
+    <a href={url}>
+    <button type="submit" className={styles.showMoreBtn}>
       Show more
-    </button>
+    </button></a>
   );
 };
 

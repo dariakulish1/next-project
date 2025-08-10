@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import styles from "./page.module.css";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { BounceLoader } from "react-spinners";
@@ -43,10 +43,20 @@ export const Dashboard = () => {
           title,
           img,
           content,
-          username: session.data.user.name,
+          name: session.data.user.name,
         }),
       });
       e.target.reset();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const handleDelete = async (id) => {
+    try {
+      await fetch(`/api/posts/${id}`, {
+        method: "DELETE",
+      });
+      mutate();
     } catch (err) {
       console.log(err);
     }
@@ -55,34 +65,90 @@ export const Dashboard = () => {
   if (session.status === "authenticated") {
     return (
       <div className={styles.container}>
-        <div className={styles.posts}>
-          {isLoading ? (
-            <p style={{ margin: "auto" }}>
-              <BounceLoader />
-              ...Loading
-            </p>
-          ) : (
-            data?.map((post) => {
-              <div key={post.id}>
-                <div className={styles.imgBox}>
-                  <Image width={400} height={500} src={post.img} alt="" />
-                </div>
-                <h2 className={styles.postTitle}>{post.title}</h2>
-                <span className={styles.postDelete}>X</span>
-              </div>;
-            })
-          )}
+        <div className={styles.header}>
+          <h1 className={styles.dashboardTitle}>Dashboard</h1>
+          <p className={styles.welcomeText}>
+            Welcome back, {session.data.user.name}!
+          </p>
         </div>
-        <form className={styles.new} onSubmit={handleSubmit}>
-          <h1>Add new post</h1>
-          <input type="text" placeholder="Title" className={styles.input} />
-          <input type="text" placeholder="Image URL" className={styles.input} />
-          <textarea
-            placeholder="Tell more about your post..."
-            className={styles.textarea}
-          />
-          <button>Publish</button>
+        <form className={styles.newPostForm} onSubmit={handleSubmit}>
+          <h2 className={styles.formTitle}>Create New Post</h2>
+          <div className={styles.formGroup}>
+            <input
+              type="text"
+              placeholder="Post Title"
+              className={styles.input}
+              required
+            />
+          </div>
+          <div className={styles.formGroup}>
+            <input
+              type="url"
+              placeholder="Image URL"
+              className={styles.input}
+              required
+            />
+          </div>
+          <div className={styles.formGroup}>
+            <textarea
+              placeholder="Write your post content here..."
+              className={styles.textarea}
+              rows="6"
+              required
+            />
+          </div>
+          <button type="submit" className={styles.publishBtn}>
+            Publish Post
+          </button>
         </form>
+
+        <div className={styles.postsSection}>
+          <h2 className={styles.sectionTitle}>Your Posts</h2>
+          <div className={styles.posts}>
+            {isLoading ? (
+              <div className={styles.loadingContainer}>
+                <BounceLoader color="#7A85C1" />
+                <p className={styles.loadingText}>Loading your posts...</p>
+              </div>
+            ) : data && data.length > 0 ? (
+              data.map((post) => (
+                <div key={post._id} className={styles.postCard}>
+                  <div className={styles.postImage}>
+                    <Image
+                      width={300}
+                      height={200}
+                      src={post.img}
+                      alt={post.title}
+                      className={styles.image}
+                    />
+                  </div>
+                  <div className={styles.postContent}>
+                    <h3 className={styles.postTitle}>{post.title}</h3>
+                    <p className={styles.postExcerpt}>
+                      {post.content.length > 100
+                        ? `${post.content.substring(0, 100)}...`
+                        : post.content}
+                    </p>
+                    <div className={styles.postActions}>
+                      <button
+                        className={styles.deleteBtn}
+                        onClick={() => handleDelete(post._id)}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className={styles.emptyState}>
+                <p className={styles.emptyText}>
+                  No posts yet. Create your first post above!
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     );
   }

@@ -9,10 +9,12 @@ const About = () => {
       <div className={styles.textBlock}>
         <h1 className={styles.title}>About This Site</h1>
         <p className={styles.description}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque euismod, nisi eu consectetur consectetur, nisl nisi consectetur nisi, euismod euismod nisi nisi euismod.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque
+          euismod, nisi eu consectetur consectetur, nisl nisi consectetur nisi,
+          euismod euismod nisi nisi euismod.
         </p>
         <Link href="/contacts" className={styles.contactButton}>
-          Contact Us
+          Contact Me
         </Link>
       </div>
       <div className={styles.imageBlock}>

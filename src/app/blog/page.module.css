@@ -1,42 +1,118 @@
 .categoryContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 24px;
     padding: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
 }
 
 .categoryBox {
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px;
-    background: rgb(85, 59, 152);
-    border-radius: 30px;
-    margin-top: 10px;
+    flex-direction: column;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    height: 100%;
+    min-height: 300px;
+}
+
+.categoryBox:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
 }
 
 .textBlock {
-    flex: 2;
+    flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    gap: 1.5rem;
+    justify-content: space-between;
+    padding: 24px;
+    color: white;
+}
+
+.textBlock h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+    line-height: 1.4;
+    color: white;
+}
+
+.textBlock p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 16px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.imageBlock {
+    width: 100%;
+    height: 200px;
+    position: relative;
+    overflow: hidden;
 }
 
 .aboutImage {
     width: 100%;
-    max-width: 240px;
-    border-radius: 1.5rem;
-    box-shadow: 0 4px 32px rgba(0, 0, 0, 0.10);
+    height: 100%;
     object-fit: cover;
-    aspect-ratio: 3/4;
+    transition: transform 0.3s ease;
 }
 
-.imageBlock {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.categoryBox:hover .aboutImage {
+    transform: scale(1.05);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .categoryContainer {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 16px;
+    }
+
+    .categoryBox {
+        min-height: 280px;
+    }
+
+    .textBlock {
+        padding: 20px;
+    }
+
+    .textBlock h1 {
+        font-size: 1.3rem;
+    }
+
+    .imageBlock {
+        height: 180px;
+    }
+}
+
+@media (max-width: 480px) {
+    .categoryContainer {
+        padding: 12px;
+    }
+
+    .categoryBox {
+        min-height: 260px;
+    }
+
+    .textBlock {
+        padding: 16px;
+    }
+
+    .textBlock h1 {
+        font-size: 1.2rem;
+    }
+
+    .imageBlock {
+        height: 160px;
+    }
 }

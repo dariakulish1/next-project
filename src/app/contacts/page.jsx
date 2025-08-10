@@ -1,12 +1,55 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import styles from "./page.module.css";
-
-export const metadata = {
-  title: "CreateIt Contacts",
-  description: "Contact Page",
-};
+import { useRouter } from "next/navigation";
 
 const Contacts = () => {
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const router = useRouter();
+
+  const handleSend = async (e) => {
+    e.preventDefault();
+    setError(null);
+    setSuccess(false);
+    setIsSubmitting(true);
+
+    const name = e.target[0].value.trim();
+    const email = e.target[1].value.trim();
+    const message = e.target[2].value.trim();
+
+
+    try {
+      const res = await fetch("/api/contacts", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          message,
+        }),
+      });
+
+      if (res.ok) {
+        setSuccess(true);
+        e.target.reset();
+      } else {
+        const errorData = await res.text();
+        setError("Something went wrong, please try again");
+        console.error("Server error:", errorData);
+      }
+    } catch (err) {
+      setError("Something went wrong, please try again");
+      console.error("Network error:", err);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.formWrapper}>
@@ -14,33 +57,31 @@ const Contacts = () => {
           <h1 className={styles.title}>Get in Touch</h1>
         </div>
 
-        <form className={styles.contactForm}>
-          <div className={styles.nameGroup}>
-            <div className={styles.inputGroup}>
-              <label htmlFor="firstName" className={styles.label}>
-                First Name
-              </label>
-              <input
-                type="text"
-                id="firstName"
-                name="firstName"
-                className={styles.input}
-                placeholder="Enter your first name"
-              />
+        <form className={styles.contactForm} onSubmit={handleSend}>
+          {error && (
+            <div className={styles.errorMessage}>
+              {error}
             </div>
+          )}
+          
+          {success && (
+            <div className={styles.successMessage}>
+              Thank you! Your message has been sent successfully.
+            </div>
+          )}
 
-            <div className={styles.inputGroup}>
-              <label htmlFor="lastName" className={styles.label}>
-                Last Name
-              </label>
-              <input
-                type="text"
-                id="lastName"
-                name="lastName"
-                className={styles.input}
-                placeholder="Enter your last name"
-              />
-            </div>
+          <div className={styles.inputGroup}>
+            <label htmlFor="name" className={styles.label}>
+              Name
+            </label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              className={styles.input}
+              placeholder="Enter your name"
+              required
+            />
           </div>
 
           <div className={styles.inputGroup}>
@@ -53,6 +94,7 @@ const Contacts = () => {
               name="email"
               className={styles.input}
               placeholder="Enter your email address"
+              required
             />
           </div>
 
@@ -66,11 +108,18 @@ const Contacts = () => {
               className={styles.textarea}
               placeholder="Message..."
               rows="6"
+              required
             ></textarea>
           </div>
 
-          <button type="submit" className={styles.sendButton}>
-            <span className={styles.buttonText}>Send Message</span>
+          <button 
+            type="submit" 
+            className={styles.sendButton}
+            disabled={isSubmitting}
+          >
+            <span className={styles.buttonText}>
+              {isSubmitting ? "Sending..." : "Send Message"}
+            </span>
           </button>
         </form>
       </div>

@@ -2,6 +2,7 @@
   height: 50px;
   font-size: 14px;
   display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: space-between;
 }
@@ -15,4 +16,14 @@
 .icon {
   opacity: 0.6;
   cursor: pointer;
+}
+
+.info {
+  display: flex;
+  flex-direction: row;
+  height: 20px;
+}
+
+.contactInfo {
+  margin-top: 5px;
 }
