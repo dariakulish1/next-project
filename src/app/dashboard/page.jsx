@@ -107,7 +107,7 @@ export const Dashboard = () => {
           <div className={styles.posts}>
             {isLoading ? (
               <div className={styles.loadingContainer}>
-                <BounceLoader color="#7A85C1" />
+                <BounceLoader color="#8691cdff" />
                 <p className={styles.loadingText}>Loading your posts...</p>
               </div>
             ) : data && data.length > 0 ? (

@@ -20,7 +20,6 @@ const Contacts = () => {
     const email = e.target[1].value.trim();
     const message = e.target[2].value.trim();
 
-
     try {
       const res = await fetch("/api/contacts", {
         method: "POST",
@@ -58,12 +57,8 @@ const Contacts = () => {
         </div>
 
         <form className={styles.contactForm} onSubmit={handleSend}>
-          {error && (
-            <div className={styles.errorMessage}>
-              {error}
-            </div>
-          )}
-          
+          {error && <div className={styles.errorMessage}>{error}</div>}
+
           {success && (
             <div className={styles.successMessage}>
               Thank you! Your message has been sent successfully.
@@ -112,8 +107,8 @@ const Contacts = () => {
             ></textarea>
           </div>
 
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             className={styles.sendButton}
             disabled={isSubmitting}
           >
