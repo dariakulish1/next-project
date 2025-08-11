@@ -93,6 +93,15 @@ const Navbar = () => {
             </Link>
           );
         })}
+        {session.status !== "authenticated" && (
+          <Link
+            className={styles.signin}
+            href="/dashboard/login"
+            onClick={closeMenu}
+          >
+            Sign In
+          </Link>
+        )}
         {session.status === "authenticated" && (
           <button
             className={styles.logout}

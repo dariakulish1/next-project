@@ -1,5 +1,6 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
+import Link from "next/link";
 import styles from "./page.module.css";
 import { signIn, useSession } from "next-auth/react";
 import { BounceLoader } from "react-spinners";
@@ -8,6 +9,7 @@ import { useRouter } from "next/navigation";
 const Login = () => {
   const session = useSession();
   const router = useRouter();
+  const [error, setError] = useState("");
   if (session.status === "loading") {
     return (
       <div style={{ margin: "auto" }}>
@@ -19,11 +21,21 @@ const Login = () => {
   if (session.status === "authenticated") {
     router?.push("/dashboard");
   }
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
     const email = e.target[0].value;
     const password = e.target[1].value;
-    signIn("credentials", { email, password });
+    const res = await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    });
+    if (res?.error) {
+      setError(res.error);
+      return;
+    }
+    router.push("/dashboard");
   };
   return (
     <div>
@@ -63,14 +75,17 @@ const Login = () => {
               <span className={styles.buttonText}>Login</span>
             </button>
           </form>
-          {/* {error && (
+          {error && (
             <span className={styles.error}>
-              Something went wrong, please try again later.
+              {error}
             </span>
-          )} */}
+          )}
+          <Link className={styles.link} href="/dashboard/register">
+            Create an account
+          </Link>
         </div>
       </div>
-      <button type="submit" onClick={() => signIn("google")}>
+      <button type="button" onClick={() => signIn("google", { callbackUrl: "/dashboard" })}>
         Login with google
       </button>
     </div>

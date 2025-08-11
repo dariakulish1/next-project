@@ -1,11 +1,16 @@
 import React from "react";
+import { headers } from "next/headers";
 import styles from "./page.module.css";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
 async function getData(id) {
-  const res = await fetch(`http://localhost:3000/api/posts/${id}`, {
+  const hdrs = headers();
+  const host = hdrs.get("host");
+  const protocol = process.env.NODE_ENV === "production" ? "https" : "http";
+  const baseUrl = `${protocol}://${host}`;
+  const res = await fetch(`${baseUrl}/api/posts/${id}`, {
     cache: "no-store",
   });
   if (!res.ok) {
