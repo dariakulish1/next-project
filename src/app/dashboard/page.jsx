@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { BounceLoader } from "react-spinners";
 import Image from "next/image";
 
-export const Dashboard = () => {
+export default function Dashboard() {
   const session = useSession();
   const router = useRouter();
 
@@ -152,6 +152,4 @@ export const Dashboard = () => {
       </div>
     );
   }
-};
-
-export default Dashboard;
+}

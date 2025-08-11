@@ -21,7 +21,7 @@ const categories = [
   },
 ];
 
-export const Portfolio = () => {
+export default function Portfolio() {
   return (
     <div className={styles.container}>
       <h1 className={styles.heading}>
@@ -41,6 +41,4 @@ export const Portfolio = () => {
       </div>
     </div>
   );
-};
-
-export default Portfolio;
+}
