@@ -13,7 +13,7 @@ async function getData() {
   return res.json();
 }
 
-export const Blog = async () => {
+export default async function Blog() {
   const data = await getData();
   return (
     <div className={styles.categoryContainer}>
@@ -44,6 +44,4 @@ export const Blog = async () => {
       })}
     </div>
   );
-};
-
-export default Blog;
+}
