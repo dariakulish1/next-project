@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import connect from "@/utils/db";
 import Post from "@/models/Post";
+import { getAuthSession } from "@/utils/auth";
 
 export const GET = async (request) => {
   const url = new URL(request.url);
@@ -16,12 +17,26 @@ export const GET = async (request) => {
 };
 
 export const POST = async (request) => {
-  const body = await request.json();
-
-  const newPost = new Post(body);
+  const session = await getAuthSession();
+  if (!session?.user?.name) {
+    return new NextResponse("Unauthorized", { status: 401 });
+  }
 
   try {
+    const { title, img, content } = await request.json();
+
+    if (!title || !img || !content) {
+      return new NextResponse("Missing required fields", { status: 400 });
+    }
+
     await connect();
+
+    const newPost = new Post({
+      title,
+      img,
+      content,
+      name: session.user.name,
+    });
 
     await newPost.save();
 

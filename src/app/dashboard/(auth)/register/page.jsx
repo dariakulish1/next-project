@@ -1,7 +1,6 @@
 "use client";
 import React, { useState } from "react";
 import styles from "./page.module.css";
-import { set } from "mongoose";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -12,6 +11,8 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError(null);
+
     const name = e.target[0].value;
     const email = e.target[1].value;
     const password = e.target[2].value;
@@ -28,10 +29,16 @@ const Register = () => {
           password,
         }),
       });
-      res.status === 201 &&
+
+      if (res.status === 201) {
         router.push("/dashboard/login?success=Account has been created");
+        return;
+      }
+
+      const message = await res.text();
+      setError(message || "Something went wrong, please try again later.");
     } catch (err) {
-      setError(err);
+      setError("Something went wrong, please try again later.");
       console.log(err);
     }
   };
@@ -90,7 +97,7 @@ const Register = () => {
         </form>
         {error && (
           <span className={styles.error}>
-            Something went wrong, please try again later.
+            {error}
           </span>
         )}
         <Link className={styles.link} href="/dashboard/login">

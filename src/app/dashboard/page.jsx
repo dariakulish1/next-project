@@ -39,11 +39,13 @@ export default function Dashboard() {
     try {
       await fetch("/api/posts", {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({
           title,
           img,
           content,
-          name: session.data.user.name,
         }),
       });
       e.target.reset();
