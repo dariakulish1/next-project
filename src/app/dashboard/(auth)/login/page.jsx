@@ -24,7 +24,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    const email = e.target[0].value;
+    const email = e.target[0].value.trim().toLowerCase();
     const password = e.target[1].value;
     const res = await signIn("credentials", {
       email,
@@ -32,7 +32,11 @@ const Login = () => {
       redirect: false,
     });
     if (res?.error) {
-      setError(res.error);
+      setError(
+        res.error === "CredentialsSignin"
+          ? "Wrong email or password"
+          : res.error
+      );
       return;
     }
     router.push("/dashboard");

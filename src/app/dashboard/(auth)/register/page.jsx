@@ -98,6 +98,14 @@ const Register = () => {
         {error && (
           <span className={styles.error}>
             {error}
+            {error.includes("log in") && (
+              <>
+                {" "}
+                <Link className={styles.link} href="/dashboard/login">
+                  Go to login
+                </Link>
+              </>
+            )}
           </span>
         )}
         <Link className={styles.link} href="/dashboard/login">
